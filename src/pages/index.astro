@@ -1,0 +1,21 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header";
+import PhotoSlider from "../components/PhotoSlider";
+import ProductList  from '../components/ProductList'
+---
+
+<Layout title="My E-Commerce">
+  <Header client:only="react" />
+  <main class="">
+    <div class="border-t-[40px]  border-b-[40px] border-gray-200">
+      <PhotoSlider client:load />
+    </div>
+    <div class="bg-gray-200">
+      <h2 class="text-4xl font-semibold m-auto bg-white shadow-2xl w-[80%] text-gray-500 py-2 pl-4 mb-10 text-center">
+        E-Commerce Products
+      </h2>
+      <ProductList client:load />
+    </div>
+  </main>
+</Layout>
