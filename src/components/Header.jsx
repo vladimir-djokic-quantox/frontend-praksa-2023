@@ -11,8 +11,12 @@ library.add(faBars);
 
 const Header = () => {
   const [open, setOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userInfo, setUserInfo] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("isLoggedIn") === "true"
+  );
+  const [userInfo, setUserInfo] = useState(
+    JSON.parse(localStorage.getItem("userInfo")) || {}
+  );
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const openLoginModal = () => {
@@ -26,13 +30,19 @@ const Header = () => {
   const handleLogin = (userData) => {
     setUserInfo(userData);
     setIsLoggedIn(true);
+    localStorage.setItem("userInfo", JSON.stringify(userData));
+    localStorage.setItem("isLoggedIn", "true");
     closeLoginModal();
+    
   };
 
   const handleLogout = () => {
     setUserInfo({});
     setIsLoggedIn(false);
+    localStorage.removeItem("userInfo");
+    localStorage.setItem("isLoggedIn", "false");
   };
+
 
   return (
     <header className="bg-gradient-to-r from-green-500 to-green-700 text-white py-4  ">
@@ -46,13 +56,12 @@ const Header = () => {
           <a href="/cart" className="relative group">
             <FaShoppingCart />
           </a>
-          <a href="/account">View Account</a>
+          <a href="/UserInfo/AccountPage">View Account</a>
           {isLoggedIn ? (
             <>
               <p className="text-white">Welcome, {userInfo.firstName}</p>
               <button onClick={handleLogout}>Logout</button>
-            </>
-          ) : (
+            </>          ) : (
             <button onClick={openLoginModal}>Log In</button>
           )}
         </div>
@@ -74,7 +83,7 @@ const Header = () => {
           </button>
           <Sidebar open={open} setOpen={setOpen} />
           <p>All Categories</p>
-          <a href="/products" className="">
+          <a href="/AllProducts/AllProducts" className="">
             See All Products
           </a>
         </div>

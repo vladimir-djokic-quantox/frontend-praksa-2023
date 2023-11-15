@@ -1,16 +1,12 @@
 import { useState, useEffect } from "react";
 
-export default function ProductList() {
+export default function FullProductList() {
   const [products, setProducts] = useState([]);
 
-  const fetchRandomProducts = async () => {
-    const res = await fetch("https://dummyjson.com/products?limit=20");
+  const fetchProducts = async () => {
+    const res = await fetch("https://dummyjson.com/products?limit=100");
     const data = await res.json();
-    if (data.products && data.products.length) {
-      // Shuffle the array to get random products each time
-      const shuffledProducts = data.products.sort(() => Math.random() - 0.5);
-      setProducts(shuffledProducts);
-    }
+    if (data.products && data.products.length) setProducts(data.products);
   };
 
   const formatPrice = (price) => {
@@ -21,7 +17,7 @@ export default function ProductList() {
   };
 
   useEffect(() => {
-    fetchRandomProducts();
+    fetchProducts();
   }, []);
 
   
