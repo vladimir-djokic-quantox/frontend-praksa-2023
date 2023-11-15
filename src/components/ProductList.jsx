@@ -7,7 +7,6 @@ export default function ProductList() {
     const res = await fetch("https://dummyjson.com/products?limit=20");
     const data = await res.json();
     if (data.products && data.products.length) {
-      // Shuffle the array to get random products each time
       const shuffledProducts = data.products.sort(() => Math.random() - 0.5);
       setProducts(shuffledProducts);
     }

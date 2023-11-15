@@ -24,7 +24,6 @@ const UserInformation = () => {
   if (userData) {
     return (
       <div className="w-[60%] mx-auto mt-8 p-4 border rounded-lg shadow-lg flex">
-        {/* Image Section */}
         <div className="flex-shrink-0">
           <img
             className="w-40 h-40 rounded-full"
@@ -33,7 +32,6 @@ const UserInformation = () => {
           />
         </div>
 
-        {/* User Information Section */}
         <div className="ml-4">
           <h1 className="text-2xl font-bold mb-4">User Information</h1>
 
