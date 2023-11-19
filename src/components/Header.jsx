@@ -53,10 +53,14 @@ const Header = () => {
         </div>
 
         <div className="flex items-center space-x-4">
+        {isLoggedIn && (
           <a href="/cart" className="relative group">
             <FaShoppingCart />
           </a>
-          <a href="/UserInfo/AccountPage">View Account</a>
+          )}
+          {isLoggedIn && (
+            <a href="/UserInfo/AccountPage">View Account</a>
+          )}
           {isLoggedIn ? (
             <>
               <p className="text-white">Welcome, {userInfo.firstName}</p>
