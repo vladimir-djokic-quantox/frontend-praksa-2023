@@ -4,6 +4,7 @@ import { Transition } from "@headlessui/react";
 const Sidebar = ({ open = false, setOpen }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     fetch("https://dummyjson.com/products/categories")
@@ -13,6 +14,18 @@ const Sidebar = ({ open = false, setOpen }) => {
         setLoading(false);
       });
   }, []);
+
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+    fetch(`https://dummyjson.com/products/category/${category}`)
+      .then((response) => response.json())
+      .then((data) => {
+      });
+
+    onCategoryClick(category);
+    console.log(categories);
+
+  };
 
   return (
     <>
@@ -36,16 +49,31 @@ const Sidebar = ({ open = false, setOpen }) => {
               aria-expanded={open}
               aria-controls="sidebar"
             >
-             <span className="text-5xl cursor-pointer text-black absolute top-0 right-3 hover:text-blue-700">×</span>
-
+              <span className="text-5xl cursor-pointer text-black absolute top-0 right-3 hover:text-blue-700">
+                ×
+              </span>
             </button>
             <ul className="flex flex-col space-y-3">
               {loading ? (
                 <li>Loading...</li>
               ) : (
                 categories.map((category) => (
-                  <li key={category} className="cursor-pointer text-black transition-transform transform hover:translate-x-2 hover:text-blue-700 ">
-                    <div className="border-b">{category.charAt(0).toUpperCase() + category.slice(1)}</div>
+                  <li
+                    key={category}
+                    className="cursor-pointer text-black transition-transform transform hover:translate-x-2 hover:text-blue-700 "
+                  >
+                    <a
+                      href={`/Category/${category}`}
+                    >
+                      <div
+                        className={`border-b ${
+                          selectedCategory === category ? "text-blue-700" : ""
+                        }`}
+                        onClick={() => handleCategoryClick(category)}
+                      >
+                        {category.charAt(0).toUpperCase() + category.slice(1)}
+                      </div>
+                    </a>
                   </li>
                 ))
               )}

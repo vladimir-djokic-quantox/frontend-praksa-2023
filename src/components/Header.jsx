@@ -1,10 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
-import Sidebar from "./Sidebar.jsx";
-import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import Sidebar from "./Sidebar.jsx";
 import LoginModal from "./LoginModal.jsx";
 
 library.add(faBars);
@@ -18,6 +18,7 @@ const Header = () => {
     JSON.parse(localStorage.getItem("userInfo")) || {}
   );
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  
 
   const openLoginModal = () => {
     setIsLoginModalOpen(true);
@@ -33,7 +34,6 @@ const Header = () => {
     localStorage.setItem("userInfo", JSON.stringify(userData));
     localStorage.setItem("isLoggedIn", "true");
     closeLoginModal();
-    
   };
 
   const handleLogout = () => {
@@ -43,6 +43,24 @@ const Header = () => {
     localStorage.setItem("isLoggedIn", "false");
   };
 
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const handleSearchInputChange = (event) => {
+    setSearchKeyword(event.target.value);
+  };
+
+  const handleSearch = () => {
+    const apiUrl = `https://dummyjson.com/products/search?q=${searchKeyword}`;
+
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Search results:", data);
+        // window.location.href = "/Search/SearchPage";
+      })
+      .catch((error) => {
+        console.error("Error during search:", error);
+      });
+  };
 
   return (
     <header className="bg-gradient-to-r from-green-500 to-green-700 text-white py-4  ">
@@ -65,7 +83,8 @@ const Header = () => {
             <>
               <p className="text-white">Welcome, {userInfo.firstName}</p>
               <button onClick={handleLogout}>Logout</button>
-            </>          ) : (
+            </>
+          ) : (
             <button onClick={openLoginModal}>Log In</button>
           )}
         </div>
@@ -98,8 +117,10 @@ const Header = () => {
               type="text"
               placeholder="Search Products"
               className="bg-transparent flex-grow ml-4 focus:outline-none"
+              value={searchKeyword}
+              onChange={handleSearchInputChange}
             />
-            <button className="text-gray-400">
+            <button className="text-gray-400" onClick={handleSearch}>
               <FiSearch />
             </button>
           </div>
