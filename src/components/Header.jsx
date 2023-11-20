@@ -43,23 +43,20 @@ const Header = () => {
     localStorage.setItem("isLoggedIn", "false");
   };
 
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const handleSearchInputChange = (event) => {
-    setSearchKeyword(event.target.value);
+  const handleSearchButtonClick = () => {
+    window.location.href = `/Search/SearchPage?q=${encodeURIComponent(searchInput)}`;
   };
 
-  const handleSearch = () => {
-    const apiUrl = `https://dummyjson.com/products/search?q=${searchKeyword}`;
+  const handleSearchInputEnter = (event) => {
+  if (event.key === "Enter") {
+    window.location.href = `/Search/SearchPage?q=${encodeURIComponent(searchInput)}`;
+  }
+};
 
-    fetch(apiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Search results:", data);
-        // window.location.href = "/Search/SearchPage";
-      })
-      .catch((error) => {
-        console.error("Error during search:", error);
-      });
+  const [searchInput, setSearchInput] = useState('');
+
+  const handleSearchInputChange = (event) => {
+    setSearchInput(event.target.value);
   };
 
   return (
@@ -113,14 +110,18 @@ const Header = () => {
 
         <div className="flex items-center">
           <div className="flex items-center w-[500px] bg-white text-gray-500 rounded-full py-2 px-4">
-            <input
+          <input
               type="text"
               placeholder="Search Products"
               className="bg-transparent flex-grow ml-4 focus:outline-none"
-              value={searchKeyword}
+              value={searchInput}
               onChange={handleSearchInputChange}
+              onKeyPress={handleSearchInputEnter}
             />
-            <button className="text-gray-400" onClick={handleSearch}>
+            <button
+              className="text-gray-400"
+              onClick={handleSearchButtonClick}
+            >
               <FiSearch />
             </button>
           </div>
