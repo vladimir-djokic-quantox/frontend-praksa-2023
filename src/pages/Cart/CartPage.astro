@@ -1,0 +1,17 @@
+---
+import Header from "../../components/Header";
+import BackToHomeButton from "../../components/BackButton";
+import Cart from "../../components/Cart"
+---
+
+<Header client:only="react" />
+<BackToHomeButton/>
+<div>
+    <Cart />
+</div>
+
+
+
+<!-- Fetch user cart, uzmi prvi cart , taj cart prosledi cart komponenti  
+cart komponenta ce uzeti product iz carta i renderovati 
+-->

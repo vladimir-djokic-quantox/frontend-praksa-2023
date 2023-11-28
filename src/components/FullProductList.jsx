@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { addCartItem } from "../pages/cartStore";
 
 export default function FullProductList() {
   const [products, setProducts] = useState([]);
@@ -45,50 +46,64 @@ export default function FullProductList() {
     }
   };
 
+  const onAddToCart = (id, name, price, thumbnail) => {
+    addCartItem({ id, name, price, thumbnail });
+  };
+
   return (
     <div className="w-[90%] mx-auto">
       {currentProducts.length > 0 && (
         <div>
           <ol className="flex flex-wrap gap-3">
             {currentProducts.map((product) => (
-              <a href={`/SingleProduct/${product.id}`} key={product.id}>
-                <li className="bg-white p-4 rounded-lg shadow-md w-[300px]">
+              <li className="bg-white p-4 rounded-lg shadow-md w-[300px]">
+                <a href={`/SingleProduct/${product.id}`} key={product.id}>
                   <img
                     src={product.thumbnail}
-                    alt={product.title}
-                    className="w-full h-auto"
-                  />
-                  <h4 className="text-xl font-semibold mt-2">
-                    {product.title}
-                  </h4>
-                  <div className="brand">
-                    <span className="text-orange fw-5">Brand:</span>
-                    <span className="mx-1">{product?.brand}</span>
-                  </div>
-                  <div className="vert-line"></div>
-                  <div className="brand">
-                    <span className="text-orange fw-5">Category:</span>
-                    <span className="mx-1 text-capitalize">
-                      {product?.category
-                        ? product.category.replace("-", " ")
-                        : ""}
-                    </span>
-                  </div>
-                  <div className="price">
-                    <div className="flex align-center">
-                      <div className="old-price text-gray">
-                        {formatPrice(product?.price)}
-                      </div>
-                      <span className="fs-14 mx-2 text-dark">
-                        Inclusive of all taxes
-                      </span>
+                    className="w-full h-40 object-cover"
+                    />
+                </a>
+
+                <h4 className="text-xl font-semibold mt-2">{product.title}</h4>
+                <div className="brand">
+                  <span className="text-orange fw-5">Brand:</span>
+                  <span className="mx-1">{product?.brand}</span>
+                </div>
+                <div className="vert-line"></div>
+                <div className="brand">
+                  <span className="text-orange fw-5">Category:</span>
+                  <span className="mx-1 text-capitalize">
+                    {product?.category
+                      ? product.category.replace("-", " ")
+                      : ""}
+                  </span>
+                </div>
+                <div className="price">
+                  <div className="flex align-center">
+                    <div className="old-price text-gray">
+                      {formatPrice(product?.price)}
                     </div>
+                    <span className="fs-14 mx-2 text-dark">
+                      Inclusive of all taxes
+                    </span>
+                    <button
+                      onClick={() =>
+                        onAddToCart(
+                          product.id,
+                          product.title,
+                          product.price,
+                          product.thumbnail
+                        )
+                      }
+                    >
+                      Add to cart
+                    </button>
                   </div>
-                </li>
-              </a>
+                </div>
+              </li>
             ))}
           </ol>
-          <div className="flex justify-center items-center mt-4 font-bold gap-5">
+          <div className="pagination flex justify-center items-center mt-4 font-bold gap-5">
             <button
               onClick={prevPage}
               disabled={currentPage === 1}

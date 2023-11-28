@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { FaShoppingCart } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "./Sidebar.jsx";
 import LoginModal from "./LoginModal.jsx";
+import CartButton from "./CartButton.jsx";
 
 library.add(faBars);
 
@@ -69,9 +69,9 @@ const Header = () => {
 
         <div className="flex items-center space-x-4">
         {isLoggedIn && (
-          <a href="/cart" className="relative group">
-            <FaShoppingCart />
-          </a>
+          <div>
+            <CartButton/>
+            </div>
           )}
           {isLoggedIn && (
             <a href="/UserInfo/AccountPage">View Account</a>
