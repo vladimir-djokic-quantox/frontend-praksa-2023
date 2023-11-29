@@ -41,6 +41,7 @@ const Header = () => {
     setIsLoggedIn(false);
     localStorage.removeItem("userInfo");
     localStorage.setItem("isLoggedIn", "false");
+    setCartData(null);
   };
 
   const handleSearchButtonClick = () => {
