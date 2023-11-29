@@ -25,11 +25,11 @@ export default function ProductList() {
 
   
   return (
-    <div className="w-[90%] mx-auto">
+    <div className="w-[90%] mx-auto flex justify-center">
       {products.length && (
-        <ol className="flex flex-wrap gap-3">
+          <ol className="flex flex-wrap gap-3 justify-center">
           {products.slice().map((product) => (
-            <a href={`/SingleProduct/${product.id}`}>
+            <a href={`/${product.id}`}>
             <li key={product.id} className="bg-white p-4 rounded-lg shadow-md w-[300px]">
               <img
                 src={product.thumbnail}

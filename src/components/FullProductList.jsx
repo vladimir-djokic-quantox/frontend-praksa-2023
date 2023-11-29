@@ -51,17 +51,17 @@ export default function FullProductList() {
   };
 
   return (
-    <div className="w-[90%] mx-auto">
+    <div className="w-[90%] mx-auto flex justify-center">
       {currentProducts.length > 0 && (
         <div>
-          <ol className="flex flex-wrap gap-3">
+          <ol className="flex flex-wrap gap-3 justify-center">
             {currentProducts.map((product) => (
               <li className="bg-white p-4 rounded-lg shadow-md w-[300px]">
-                <a href={`/SingleProduct/${product.id}`} key={product.id}>
+                <a href={`/${product.id}`} key={product.id}>
                   <img
                     src={product.thumbnail}
                     className="w-full h-40 object-cover"
-                    />
+                  />
                 </a>
 
                 <h4 className="text-xl font-semibold mt-2">{product.title}</h4>

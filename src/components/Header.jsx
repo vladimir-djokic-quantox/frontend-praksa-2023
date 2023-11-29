@@ -44,12 +44,12 @@ const Header = () => {
   };
 
   const handleSearchButtonClick = () => {
-    window.location.href = `/Search/SearchPage?q=${encodeURIComponent(searchInput)}`;
+    window.location.href = `/search?q=${encodeURIComponent(searchInput)}`;
   };
 
   const handleSearchInputEnter = (event) => {
   if (event.key === "Enter") {
-    window.location.href = `/Search/SearchPage?q=${encodeURIComponent(searchInput)}`;
+    window.location.href = `/search?q=${encodeURIComponent(searchInput)}`;
   }
 };
 
@@ -74,7 +74,7 @@ const Header = () => {
             </div>
           )}
           {isLoggedIn && (
-            <a href="/UserInfo/AccountPage">View Account</a>
+            <a href="/account">View Account</a>
           )}
           {isLoggedIn ? (
             <>
@@ -103,7 +103,7 @@ const Header = () => {
           </button>
           <Sidebar open={open} setOpen={setOpen} />
           <p>All Categories</p>
-          <a href="/AllProducts/AllProducts" className="">
+          <a href="/products" className="">
             See All Products
           </a>
         </div>

@@ -99,7 +99,7 @@ const CartButton = ({}) => {
                   <p>Total</p>
                   <p>${$totalPrice.toFixed(2)}</p>
                 </div>
-                <a href="/Cart/CartPage" className="cursor-pointer text-base font-normal bg-green-500 text-white px-3 py-2  rounded transition duration-300 hover:bg-green-600 ">
+                <a href="/cart" className="cursor-pointer text-base font-normal bg-green-500 text-white px-3 py-2  rounded transition duration-300 hover:bg-green-600 ">
                   View My Shoping Cart
                 </a>
               </>

@@ -1,6 +1,6 @@
 ---
-import Header from "../../components/Header";
-import BackToHomeButton from "../../components/BackButton"
+import Header from "../components/Header";
+import BackToHomeButton from "../components/BackButton"
 const { id } = Astro.params;
 const response = await fetch(`https://dummyjson.com/products/${id}`);
 const data = await response.json();

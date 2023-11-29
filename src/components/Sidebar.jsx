@@ -63,7 +63,7 @@ const Sidebar = ({ open = false, setOpen }) => {
                     className="cursor-pointer text-black transition-transform transform hover:translate-x-2 hover:text-blue-700 "
                   >
                     <a
-                      href={`/Category/${category}`}
+                      href={`/products/${category}`}
                     >
                       <div
                         className={`border-b ${

@@ -1,0 +1,11 @@
+---
+import Header from "../components/Header";
+import BackToHomeButton from "../components/BackButton";
+import UserInformation from "../components/UserInformations";
+---
+
+<Header client:only="react" />
+<BackToHomeButton/>
+<div class="container mx-auto mt-8">
+    <UserInformation client:only="react"  />
+</div>

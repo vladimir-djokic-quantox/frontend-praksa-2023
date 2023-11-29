@@ -44,7 +44,7 @@ const SearchResults = () => {
       {!loading && !error && (
         <ul className="flex gap-3">
           {searchResults.map((product) => (
-             <a href={`/SingleProduct/${product.id}`} key={product.id}>
+             <a href={`/${product.id}`} key={product.id}>
              <li className="bg-white p-4 rounded-lg shadow-md w-[300px]">
                <img
                  src={product.thumbnail}
