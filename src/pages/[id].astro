@@ -51,9 +51,9 @@ const discountedPrice =
       </div>
       <div class="flex justify-between items-center">
         <div>
-          <div class="text-lg text-gray-600 mb-2 font-bold">
-            Rating: <StarRating client:only="react" rating={product.rating} /> 
-          </div>
+          <p class="text-lg text-gray-600 mb-2 ">
+            <span class="font-bold">Rating: </span>{product.rating} 
+          </p>
           <p class="text-lg text-gray-600 mb-2">
             <span class="font-bold">Stock: </span>
             {product.stock}
