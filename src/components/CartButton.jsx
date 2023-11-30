@@ -7,7 +7,7 @@ import {
   deleteCartItem,
   increaseCartItem,
   decreaseCartItem,
-} from "../pages/cartStore";
+} from "../utils/cartStore";
 import { useEffect, useRef } from "react";
 
 const CartButton = ({}) => {

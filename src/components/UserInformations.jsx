@@ -33,7 +33,6 @@ const UserInformation = () => {
         </div>
 
         <div className="ml-4">
-          <h1 className="text-2xl font-bold mb-4">User Information</h1>
 
           <div className="grid grid-cols-4 gap-5">
             <div>

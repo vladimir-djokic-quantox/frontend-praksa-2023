@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
-import { addCartItem } from "../pages/cartStore";
+import { addCartItem } from "../utils/cartStore";
+import { formatPrice } from "../utils/formatPrice";
+import ProductItem from "./ProductItem";
+
 
 export default function FullProductList() {
   const [products, setProducts] = useState([]);
@@ -9,17 +12,10 @@ export default function FullProductList() {
   const fetchProducts = async () => {
     const res = await fetch("https://dummyjson.com/products?limit=100");
     const data = await res.json();
-    if (data.products && data.products.length) setProducts(data.products);
+    if (data?.products?.length) setProducts(data.products);
   };
 
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(price);
-  };
-
-  useEffect(() => {
+    useEffect(() => {
     fetchProducts();
   }, []);
 
@@ -54,53 +50,14 @@ export default function FullProductList() {
     <div className="w-[90%] mx-auto flex justify-center">
       {currentProducts.length > 0 && (
         <div>
-          <ol className="flex flex-wrap gap-3 justify-center">
+             <ol className="flex flex-wrap gap-3 justify-center">
             {currentProducts.map((product) => (
-              <li className="bg-white p-4 rounded-lg shadow-md w-[300px]">
-                <a href={`/${product.id}`} key={product.id}>
-                  <img
-                    src={product.thumbnail}
-                    className="w-full h-40 object-cover"
-                  />
-                </a>
-
-                <h4 className="text-xl font-semibold mt-2">{product.title}</h4>
-                <div className="brand">
-                  <span className="text-orange fw-5">Brand:</span>
-                  <span className="mx-1">{product?.brand}</span>
-                </div>
-                <div className="vert-line"></div>
-                <div className="brand">
-                  <span className="text-orange fw-5">Category:</span>
-                  <span className="mx-1 text-capitalize">
-                    {product?.category
-                      ? product.category.replace("-", " ")
-                      : ""}
-                  </span>
-                </div>
-                <div className="price">
-                  <div className="flex align-center">
-                    <div className="old-price text-gray">
-                      {formatPrice(product?.price)}
-                    </div>
-                    <span className="fs-14 mx-2 text-dark">
-                      Inclusive of all taxes
-                    </span>
-                    <button
-                      onClick={() =>
-                        onAddToCart(
-                          product.id,
-                          product.title,
-                          product.price,
-                          product.thumbnail
-                        )
-                      }
-                    >
-                      Add to cart
-                    </button>
-                  </div>
-                </div>
-              </li>
+              <ProductItem
+                key={product.id}
+                product={product}
+                onAddToCart={onAddToCart}
+                formatPrice={formatPrice}
+              />
             ))}
           </ol>
           <div className="pagination flex justify-center items-center mt-4 font-bold gap-5">

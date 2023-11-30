@@ -18,7 +18,6 @@ const Header = () => {
     JSON.parse(localStorage.getItem("userInfo")) || {}
   );
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  
 
   const openLoginModal = () => {
     setIsLoginModalOpen(true);
@@ -49,12 +48,12 @@ const Header = () => {
   };
 
   const handleSearchInputEnter = (event) => {
-  if (event.key === "Enter") {
-    window.location.href = `/search?q=${encodeURIComponent(searchInput)}`;
-  }
-};
+    if (event.key === "Enter") {
+      window.location.href = `/search?q=${encodeURIComponent(searchInput)}`;
+    }
+  };
 
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState("");
 
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value);
@@ -69,14 +68,12 @@ const Header = () => {
         </div>
 
         <div className="flex items-center space-x-4">
-        {isLoggedIn && (
-          <div>
-            <CartButton/>
+          {isLoggedIn && (
+            <div className="z-10">
+              <CartButton />
             </div>
           )}
-          {isLoggedIn && (
-            <a href="/account">View Account</a>
-          )}
+          {isLoggedIn && <a href="/account">View Account</a>}
           {isLoggedIn ? (
             <>
               <p className="text-white">Welcome, {userInfo.firstName}</p>
@@ -111,7 +108,7 @@ const Header = () => {
 
         <div className="flex items-center">
           <div className="flex items-center w-[500px] bg-white text-gray-500 rounded-full py-2 px-4">
-          <input
+            <input
               type="text"
               placeholder="Search Products"
               className="bg-transparent flex-grow ml-4 focus:outline-none"
@@ -119,10 +116,7 @@ const Header = () => {
               onChange={handleSearchInputChange}
               onKeyPress={handleSearchInputEnter}
             />
-            <button
-              className="text-gray-400"
-              onClick={handleSearchButtonClick}
-            >
+            <button className="text-gray-400" onClick={handleSearchButtonClick}>
               <FiSearch />
             </button>
           </div>

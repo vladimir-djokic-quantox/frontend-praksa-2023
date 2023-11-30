@@ -3,19 +3,24 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header";
 import PhotoSlider from "../components/PhotoSlider";
 import ProductList  from '../components/ProductList'
+import Footer from "../components/Footer"
 ---
 
 <Layout title="My E-Commerce">
+  <div class="fixed top-0 w-full z-50">
   <Header client:only="react" />
-  <main class="">
-    <div class="border-t-[40px]  border-b-[40px] border-gray-200">
+</div>
+  <main class="pt-[134px]">
+    <div class="border-t-[40px]  border-b-[40px] border-gray-200 relative">
       <PhotoSlider client:load />
     </div>
-    <div class="bg-gray-200">
+    <div class="bg-gray-200 pb-5">
       <h2 class="text-4xl font-semibold m-auto bg-white shadow-2xl w-[80%] text-gray-500 py-2 pl-4 mb-10 text-center">
         E-Commerce Products
       </h2>
       <ProductList client:load />
     </div>
   </main>
+  <Footer client:only="react"/>
 </Layout>
+

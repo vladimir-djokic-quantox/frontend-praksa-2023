@@ -85,7 +85,6 @@ const Cart = () => {
     <div className="container mx-auto p-4">
       <div className="bg-white p-4 rounded shadow">
         <div>
-          <h3 className="text-xl font-semibold mb-5">Cart Products</h3>
           <ul>
             {cartData.products.map((product) => (
               <li

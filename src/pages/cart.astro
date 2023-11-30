@@ -2,16 +2,19 @@
 import Header from "../components/Header";
 import BackToHomeButton from "../components/BackButton";
 import Cart from "../components/Cart"
+import Footer from "../components/Footer";
 ---
 
-<Header client:only="react" />
-<BackToHomeButton/>
-<div>
-    <Cart client:load/>
-</div>
+<div class="bg-gray-200 flex flex-col min-h-screen">
+    <Header client:only="react" />
+    <BackToHomeButton />
+    <h3 class="text-4xl font-semibold m-auto bg-white shadow-2xl w-[80%] text-gray-500 py-2 pl-4  text-center">Cart Products</h3>
 
+    <div class="flex-1 ">
+      <Cart client:load />
+    </div>
+    <div class="mt-auto">
+      <Footer client:only="react" />
+    </div>
+  </div>
 
-
-<!-- Fetch user cart, uzmi prvi cart , taj cart prosledi cart komponenti  
-cart komponenta ce uzeti product iz carta i renderovati 
--->
