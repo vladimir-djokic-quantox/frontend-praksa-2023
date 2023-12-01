@@ -1,0 +1,17 @@
+---
+import Header from "../components/Header";
+import BackToHomeButton from "../components/BackButton";
+import Footer from "../components/Footer";
+---
+
+<div class="flex flex-col min-h-screen">
+  <div class=" top-0 w-full z-50 ">
+    <Header client:only="react" />
+    <BackToHomeButton />
+  </div>
+
+  <slot />
+  <div class="mt-auto pt-5">
+    <Footer client:only="react" />
+  </div>
+</div>

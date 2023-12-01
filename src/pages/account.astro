@@ -1,19 +1,15 @@
 ---
-import Header from "../components/Header";
-import BackToHomeButton from "../components/BackButton";
+import PagesLayout from "../layouts/PagesLayout.astro";
 import UserInformation from "../components/UserInformations";
-import Footer from "../components/Footer";
 ---
 
-<div class="flex flex-col min-h-screen">
-    <Header client:only="react" />
-    <BackToHomeButton />
-    <h3 class="text-4xl font-semibold m-auto bg-white shadow-2xl w-[80%] text-gray-500 py-2 pl-4  text-center">User Informations</h3>
-
-    <div class="container mx-auto mt-8 flex-1">
-      <UserInformation client:only="react" />
-    </div>
-    <div class="mt-auto">
-      <Footer client:only="react" />
-    </div>
+<PagesLayout>
+  <div class="mt-2 pb-5">
+    <h3
+      class="text-4xl font-semibold m-auto bg-white shadow-2xl w-[80%] text-gray-500 py-2 pl-4 text-center"
+    >
+      User Informations
+    </h3>
+    <UserInformation client:only="react" />
   </div>
+</PagesLayout>

@@ -1,19 +1,13 @@
 ---
-import Header from "../../components/Header";
-import BackToHomeButton from "../../components/BackButton";
 import FullProducstList from "../../components/FullProductList";
-import Footer from "../../components/Footer";
+import PagesLayout from "../../layouts/PagesLayout.astro";
 ---
 
-<div class="fixed top-0 w-full z-50">
-<Header client:only="react"/>
-<BackToHomeButton />
-
-</div>
-<div class="mt-[175px] pb-5">
-  <h2 class="text-4xl font-semibold m-auto bg-white shadow-2xl w-[80%] text-gray-500 py-2 pl-4 mb-10 text-center">
+<PagesLayout>
+  <h2
+    class="text-4xl font-semibold m-auto bg-white shadow-2xl w-[80%]  text-gray-500 py-2 pl-4 mb-10 text-center"
+  >
     E-Commerce Products
   </h2>
   <FullProducstList client:load />
-</div>
-<Footer client:only="react" />
+</PagesLayout>

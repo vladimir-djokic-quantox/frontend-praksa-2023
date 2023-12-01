@@ -1,11 +1,8 @@
 ---
-import Header from "../../components/Header";
-import BackToHomeButton from "../../components/BackButton";
 import { formatPrice } from "../../utils/formatPrice";
 import { addCartItem } from "../../utils/cartStore";
 import ProductItem from "../../components/ProductItem";
-import Footer from "../../components/Footer"
-
+import PagesLayout from "../../layouts/PagesLayout.astro";
 
 const { category } = Astro.params;
 const response = await fetch(
@@ -17,9 +14,7 @@ const onAddToCart = (id, name, price, thumbnail) => {
   addCartItem({ id, name, price, thumbnail });
 };
 ---
-<div class="flex flex-col min-h-screen">
-  <Header client:only="react" />
-  <BackToHomeButton />
+<PagesLayout>
   <div class="flex-1">
     <div>
       <h1 class="text-4xl font-semibold m-auto bg-white shadow-2xl w-[80%] text-gray-500 py-2 pl-4 mb-10 text-center">
@@ -42,7 +37,4 @@ const onAddToCart = (id, name, price, thumbnail) => {
       )}
     </div>
   </div>
-  <div class="mt-auto">
-    <Footer client:only="react" />
-  </div>
-</div>
+</PagesLayout>
