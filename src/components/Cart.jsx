@@ -83,7 +83,7 @@ const Cart = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="bg-white p-4 rounded shadow">
+      <div className="bg-white p-4 rounded shadow ">
         <div>
           <ul>
             {cartData.products.map((product) => (

@@ -2,7 +2,7 @@ import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaGithub } from "react-
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-green-500 to-green-700 text-white py-8">
+    <footer className="bg-gradient-to-r from-green-500 to-green-700 text-white py-4">
       <div className="container mx-auto flex justify-between items-center">
         <p>Contact us: <a href="mailto:panta87kg@gmail.com" className="underline">panta87kg@gmail.com</a></p>
 

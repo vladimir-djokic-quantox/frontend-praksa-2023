@@ -6,7 +6,7 @@ const ProductItem = ({ product, onAddToCart, formatPrice }) => {
 
   return (
     <li className="bg-white p-4 rounded-lg shadow-md w-[300px] transition duration-300 transform hover:scale-105">
-      <a href={`/${product.id}`} key={product.id}>
+        <a href={`/products/${product.id}`} key={product.id}>
         <img
           src={product.thumbnail}
           className="w-full h-40 object-cover rounded-md hover:opacity-90"
