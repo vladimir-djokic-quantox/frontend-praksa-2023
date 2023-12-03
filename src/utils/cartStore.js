@@ -1,13 +1,5 @@
 import { atom, map } from 'nanostores';
 
-export type CartItem = {
-  id: string;
-  name: string;
-  price: number;
-  thumbnail: string;
-  quantity: number;
-};
-
 export const selectedCategories = atom([]);
 
 export const isLoading = atom(true);
@@ -17,11 +9,9 @@ export const isCartOpen = atom(false);
 export const totalQuantity = atom(0);
 export const totalPrice = atom(0);
 
-export const cartItems = map<Record<string, CartItem>>({});
+export const cartItems = map({});
 
-type ItemDisplayInfo = Pick<CartItem, 'id' | 'name' | 'price' | 'thumbnail'>;
-
-export function addCartItem({ id, name, price, thumbnail }: ItemDisplayInfo) {
+function addCartItem({ id, name, price, thumbnail }) {
   const existingEntry = cartItems.get()[id];
   if (existingEntry) {
     cartItems.setKey(id, {
@@ -35,7 +25,7 @@ export function addCartItem({ id, name, price, thumbnail }: ItemDisplayInfo) {
   updateCartTotal();
 }
 
-export function deleteCartItem(id: string) {
+function deleteCartItem(id) {
   const existingEntry = cartItems.get()[id];
 
   if (existingEntry) {
@@ -47,7 +37,7 @@ export function deleteCartItem(id: string) {
   }
 }
 
-export function increaseCartItem(id: string) {
+function increaseCartItem(id) {
   const existingEntry = cartItems.get()[id];
 
   if (existingEntry) {
@@ -60,7 +50,7 @@ export function increaseCartItem(id: string) {
   }
 }
 
-export function decreaseCartItem(id: string) {
+function decreaseCartItem(id) {
   const existingEntry = cartItems.get()[id];
 
   if (existingEntry && existingEntry.quantity > 1) {
@@ -81,3 +71,11 @@ function updateCartTotal() {
   totalQuantity.set(quantity);
   totalPrice.set(price);
 }
+
+export {
+  addCartItem,
+  deleteCartItem,
+  increaseCartItem,
+  decreaseCartItem,
+  updateCartTotal,
+};
