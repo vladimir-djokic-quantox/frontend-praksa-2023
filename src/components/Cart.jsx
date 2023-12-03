@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import OrderModal from "./OrderModal";
 
 const Cart = () => {
   const [cartData, setCartData] = useState(null);
@@ -6,6 +7,13 @@ const Cart = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalQuantity, setTotalQuantity] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleOrderNow = () => {
+    setModalOpen(true);
+  };
+  
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
@@ -81,6 +89,8 @@ const Cart = () => {
     return <p>Loading...</p>;
   }
 
+  
+
   return (
     <div className="container mx-auto p-4">
       <div className="bg-white p-4 rounded shadow ">
@@ -145,11 +155,20 @@ const Cart = () => {
           <p>Total Quantity: {totalQuantity}</p>
           <p>Total Price: ${totalPrice.toFixed(2)}</p>
         </div>
-        <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded mt-4">
-          Order Now
-        </button>
+        <button
+              onClick={handleOrderNow}
+              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded mt-4"
+            >
+              Order Now
+            </button>
         </div>
       </div>
+      <OrderModal
+      isOpen={isModalOpen}
+      onClose={() => setModalOpen(false)}
+      handleClearCart={handleClearCart}
+      totalPrice={totalPrice}
+    />
     </div>
   );
 };
