@@ -2,6 +2,9 @@
 import Header from "../components/Header";
 import BackToHomeButton from "../components/BackButton";
 import Footer from "../components/Footer";
+const { title } = Astro.props;
+
+
 ---
 
 <div class="flex flex-col min-h-screen">
@@ -9,6 +12,9 @@ import Footer from "../components/Footer";
     <Header client:only="react" />
     <BackToHomeButton />
   </div>
+
+  <h3 class="text-3xl font-semibold mx-auto bg-white shadow-2xl w-[80%] text-gray-500 py-2 pl-4 mb-4 text-center"> {title}</h3>
+
 
   <slot />
   <div class="mt-auto pt-5">

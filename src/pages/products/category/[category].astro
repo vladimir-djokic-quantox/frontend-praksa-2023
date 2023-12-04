@@ -12,14 +12,10 @@ const onAddToCart = (id, name, price, thumbnail) => {
   addCartItem({ id, name, price, thumbnail });
 };
 ---
-<PagesLayout>
+<PagesLayout title={`${category.charAt(0).toUpperCase() + category.slice(1)} Products`}>
   <div class="flex-1">
     <div>
-      <h1 class="text-4xl font-semibold m-auto bg-white shadow-2xl w-[80%] text-gray-500 py-2 pl-4 mb-10 text-center">
-        {category.charAt(0).toUpperCase() + category.slice(1)} Products
-      </h1>
-
-      {data.products && data.products.length > 0 ? (
+            {data.products && data.products.length > 0 ? (
         <ol class="flex flex-wrap gap-3 justify-center">
           {data.products.map((product) => (
             <ProductItem

@@ -1,13 +1,9 @@
 ---
-import FullProducstList from "../../components/FullProductList";
+import ProductList from "../../components/lProductList";
 import PagesLayout from "../../layouts/PagesLayout.astro";
 ---
 
-<PagesLayout>
-  <h2
-    class="text-4xl font-semibold m-auto bg-white shadow-2xl w-[80%]  text-gray-500 py-2 pl-4 mb-10 text-center"
-  >
-    E-Commerce Products
-  </h2>
-  <FullProducstList client:load />
+<PagesLayout title="E-Commerce Products">
+  
+  <ProductList client:load showRandomSubset={false} numberOfProductsToShow={100} />
 </PagesLayout>

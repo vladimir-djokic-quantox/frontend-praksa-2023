@@ -1,19 +1,14 @@
 ---
-import Header from "../components/Header";
-import BackToHomeButton from "../components/BackButton";
 import SearchResults from "../components/SearchResults";
-import Footer from "../components/Footer";
+import PagesLayout from "../layouts/PagesLayout.astro";
 ---
 
-<div class="flex flex-col min-h-screen">
-  <Header client:only="react" />
-  <BackToHomeButton />
+<PagesLayout title="Search Products">
+  
   <div class="flex-1">
     <div>
       <SearchResults client:only="react" />
     </div>
   </div>
-  <div class="mt-auto">
-    <Footer client:only="react" />
-  </div>
 </div>
+</PagesLayout>

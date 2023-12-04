@@ -39,7 +39,6 @@ const SearchResults = () => {
 
   return (
     <div>
-      <h2>Search Results</h2>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
       {!loading && !error && (

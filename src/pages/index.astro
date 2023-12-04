@@ -2,8 +2,8 @@
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header";
 import PhotoSlider from "../components/PhotoSlider";
-import ProductList  from '../components/ProductList'
 import Footer from "../components/Footer"
+import ProductList from "../components/lProductList";
 ---
 
 <Layout title="My E-Commerce">
@@ -18,7 +18,7 @@ import Footer from "../components/Footer"
       <h2 class="text-4xl font-semibold m-auto bg-white shadow-2xl w-[80%] text-gray-500 py-2 pl-4 mb-10 text-center">
         E-Commerce Products
       </h2>
-      <ProductList client:load />
+      <ProductList client:load showRandomSubset={true} numberOfProductsToShow={20}  />
     </div>
   </main>
   <Footer client:only="react"/>
