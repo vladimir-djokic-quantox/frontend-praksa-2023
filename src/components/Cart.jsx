@@ -13,7 +13,6 @@ const Cart = () => {
   const handleOrderNow = () => {
     setModalOpen(true);
   };
-  
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
@@ -89,86 +88,79 @@ const Cart = () => {
     return <p>Loading...</p>;
   }
 
-  
-
   return (
     <div className="container mx-auto p-4">
-      <div className="bg-white p-4 rounded shadow ">
-        <div>
-          <ul>
-            {cartData.products.map((product) => (
-              <li
-                key={product.id}
-                className="flex items-center justify-between border-b pb-4 mb-4"
-              >
-                <div className="flex items-center justify-between w-full">
-                  <img
-                    src={product.thumbnail}
-                    alt={product.title}
-                    className="w-16 h-16 object-cover mr-4 rounded"
-                  />
-                  <div className="flex items-center w-2/3">
-                    <div>
-                      <p className="text-lg font-semibold mb-1">
-                        {product.title}
-                      </p>
-                      <p>Price: ${product.discountedPrice}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center">
-                  <p className="mr-4">Quantity: {product.quantity}</p>
-                  <div className="flex space-x-2">
-                    <button
-                      onClick={() => handleDecrement(product.id)}
-                      className="bg-gray-300 text-gray-700 px-2 py-1 rounded"
-                    >
-                      -
-                    </button>
-                    <button
-                      onClick={() => handleIncrement(product.id)}
-                      className="bg-blue-500 text-white px-2 py-1 rounded"
-                    >
-                      +
-                    </button>
-                    <button
-                      onClick={() => handleDelete(product.id)}
-                      className="bg-red-500 text-white px-2 py-1 rounded"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="flex justify-between items-end ">
-        <button
-          onClick={handleClearCart}
-          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded mt-4">
-          Clear Cart
-        </button>
-        <div className="mt-4">
-          <p className="text-lg font-semibold mb-2">Cart Summary:</p>
-          <p>Total Products: {totalProducts}</p>
-          <p>Total Quantity: {totalQuantity}</p>
-          <p>Total Price: ${totalPrice.toFixed(2)}</p>
-        </div>
-        <button
-              onClick={handleOrderNow}
-              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded mt-4"
+      <div className="bg-white p-4 rounded shadow">
+        <ul>
+          {cartData.products.map((product) => (
+            <li
+              key={product.id}
+              className="flex items-center justify-between border-b pb-4 mb-4"
             >
-              Order Now
-            </button>
+              <img
+                src={product.thumbnail}
+                alt={product.title}
+                className="w-16 h-16 object-cover mr-4 rounded"
+              />
+              <div className="flex items-center w-2/3">
+                <div>
+                  <p className="text-lg font-semibold mb-1">{product.title}</p>
+                  <p>Price: ${product.discountedPrice}</p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <p className="mr-4">Quantity: {product.quantity}</p>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() => handleDecrement(product.id)}
+                    className="bg-gray-300 text-gray-700 px-2 py-1 rounded"
+                  >
+                    -
+                  </button>
+                  <button
+                    onClick={() => handleIncrement(product.id)}
+                    className="bg-blue-500 text-white px-2 py-1 rounded"
+                  >
+                    +
+                  </button>
+                  <button
+                    onClick={() => handleDelete(product.id)}
+                    className="bg-red-500 text-white px-2 py-1 rounded"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <div className="flex justify-between items-end mt-4">
+          <button
+            onClick={handleClearCart}
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+          >
+            Clear Cart
+          </button>
+          <div className="mt-4">
+            <p className="text-lg font-semibold mb-2">Cart Summary:</p>
+            <p>Total Products: {totalProducts}</p>
+            <p>Total Quantity: {totalQuantity}</p>
+            <p>Total Price: ${totalPrice.toFixed(2)}</p>
+          </div>
+          <button
+            onClick={handleOrderNow}
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+          >
+            Order Now
+          </button>
         </div>
       </div>
       <OrderModal
-      isOpen={isModalOpen}
-      onClose={() => setModalOpen(false)}
-      handleClearCart={handleClearCart}
-      totalPrice={totalPrice}
-    />
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        handleClearCart={handleClearCart}
+        totalPrice={totalPrice}
+      />
     </div>
   );
 };

@@ -3,12 +3,11 @@ import ProductItem from "./ProductItem";
 import { addCartItem } from "../utils/cartStore";
 import { formatPrice } from "../utils/formatPrice";
 
-
 const SearchResults = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   const onAddToCart = (id, name, price, thumbnail) => {
     addCartItem({ id, name, price, thumbnail });
   };
@@ -18,7 +17,9 @@ const SearchResults = () => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://dummyjson.com/products/search?q=${searchQuery}`);
+        const response = await fetch(
+          `https://dummyjson.com/products/search?q=${searchQuery}`
+        );
         const data = await response.json();
 
         if (Array.isArray(data.products)) {
@@ -44,12 +45,12 @@ const SearchResults = () => {
       {!loading && !error && (
         <ul className="flex gap-3">
           {searchResults.map((product) => (
-             <ProductItem
-             key={product.id}
-             product={product}
-             formatPrice={formatPrice}
-             onAddToCart={onAddToCart}
-           />
+            <ProductItem
+              key={product.id}
+              product={product}
+              formatPrice={formatPrice}
+              onAddToCart={onAddToCart}
+            />
           ))}
         </ul>
       )}
