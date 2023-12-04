@@ -5,17 +5,21 @@ import ProductItem from "../../../components/ProductItem";
 import PagesLayout from "../../../layouts/PagesLayout.astro";
 
 const { category } = Astro.params;
-const response = await fetch(`https://dummyjson.com/products/category/${category}`);
+const response = await fetch(
+  `https://dummyjson.com/products/category/${category}`
+);
 const data = await response.json();
 
 const onAddToCart = (id, name, price, thumbnail) => {
   addCartItem({ id, name, price, thumbnail });
 };
 ---
-<PagesLayout title={`${category.charAt(0).toUpperCase() + category.slice(1)} Products`}>
-  <div class="flex-1">
-    <div>
-            {data.products && data.products.length > 0 ? (
+
+<PagesLayout
+  title={`${category.charAt(0).toUpperCase() + category.slice(1)} Products`}
+>
+    {
+      data.products && data.products.length > 0 ? (
         <ol class="flex flex-wrap gap-3 justify-center">
           {data.products.map((product) => (
             <ProductItem
@@ -28,7 +32,6 @@ const onAddToCart = (id, name, price, thumbnail) => {
         </ol>
       ) : (
         <p>No products available for this category.</p>
-      )}
-    </div>
-  </div>
+      )
+    }
 </PagesLayout>

@@ -1,12 +1,8 @@
 ---
-import Cart from "../components/Cart"
+import Cart from "../components/Cart";
 import PagesLayout from "../layouts/PagesLayout.astro";
 ---
 
 <PagesLayout title="Cart Products">
-
-  <div class="flex-1 ">
-    <Cart client:load />
-  </div>
-
+  <Cart client:load />
 </PagesLayout>

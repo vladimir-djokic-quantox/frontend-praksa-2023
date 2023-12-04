@@ -4,6 +4,9 @@ import PagesLayout from "../../layouts/PagesLayout.astro";
 ---
 
 <PagesLayout title="E-Commerce Products">
-  
-  <ProductList client:load showRandomSubset={false} numberOfProductsToShow={100} />
+  <ProductList
+    client:load
+    showRandomSubset={false}
+    numberOfProductsToShow={100}
+  />
 </PagesLayout>
