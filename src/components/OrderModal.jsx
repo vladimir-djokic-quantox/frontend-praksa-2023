@@ -107,6 +107,7 @@ const OrderModal = ({ isOpen, onClose, handleClearCart, totalPrice }) => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
+                placeholder="John Doe"
                 className={`mt-1 p-2 border rounded w-full ${
                   errors.name ? "border-red-500" : ""
                 }`}
@@ -123,6 +124,7 @@ const OrderModal = ({ isOpen, onClose, handleClearCart, totalPrice }) => {
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
+                placeholder="123 Main Street"
                 className={`mt-1 p-2 border rounded w-full ${
                   errors.address ? "border-red-500" : ""
                 }`}
@@ -139,6 +141,7 @@ const OrderModal = ({ isOpen, onClose, handleClearCart, totalPrice }) => {
                 name="city"
                 value={formData.city}
                 onChange={handleChange}
+                placeholder="New York"
                 className={`mt-1 p-2 border rounded w-full ${
                   errors.city ? "border-red-500" : ""
                 }`}
@@ -155,6 +158,7 @@ const OrderModal = ({ isOpen, onClose, handleClearCart, totalPrice }) => {
                 name="country"
                 value={formData.country}
                 onChange={handleChange}
+                placeholder="United States"
                 className={`mt-1 p-2 border rounded w-full ${
                   errors.country ? "border-red-500" : ""
                 }`}
@@ -176,6 +180,7 @@ const OrderModal = ({ isOpen, onClose, handleClearCart, totalPrice }) => {
                 name="cardNumber"
                 value={formData.cardNumber}
                 onChange={handleChange}
+                placeholder="XXXX-XXXX-XXXX-XXXX"
                 className={`mt-1 p-2 border rounded w-full ${
                   errors.cardNumber ? "border-red-500" : ""
                 }`}
@@ -193,6 +198,7 @@ const OrderModal = ({ isOpen, onClose, handleClearCart, totalPrice }) => {
                   name="expDate"
                   value={formData.expDate}
                   onChange={handleChange}
+                  placeholder="MM/YY"
                   className={`mt-1 p-2 border rounded w-full ${
                     errors.expDate ? "border-red-500" : ""
                   }`}
@@ -209,6 +215,7 @@ const OrderModal = ({ isOpen, onClose, handleClearCart, totalPrice }) => {
                   name="cvv"
                   value={formData.cvv}
                   onChange={handleChange}
+                  placeholder="XXX"
                   className={`mt-1 p-2 border rounded w-full ${
                     errors.cvv ? "border-red-500" : ""
                   }`}
@@ -252,7 +259,6 @@ const OrderModal = ({ isOpen, onClose, handleClearCart, totalPrice }) => {
         </div>
       )}
     </div>
-
   );
 };
 
