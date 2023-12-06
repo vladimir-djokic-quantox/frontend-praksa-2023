@@ -11,13 +11,12 @@ library.add(faBars);
 
 const Header = () => {
   const [open, setOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem("isLoggedIn") === "true"
-  );
   const [userInfo, setUserInfo] = useState(
     JSON.parse(localStorage.getItem("userInfo")) || {}
   );
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [searchInput, setSearchInput] = useState("");
 
   const openLoginModal = () => {
     setIsLoginModalOpen(true);
@@ -29,18 +28,17 @@ const Header = () => {
 
   const handleLogin = (userData) => {
     setUserInfo(userData);
-    setIsLoggedIn(true);
+    setToken(userData.token);
     localStorage.setItem("userInfo", JSON.stringify(userData));
-    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("token", userData.token);
     closeLoginModal();
   };
 
   const handleLogout = () => {
     setUserInfo({});
-    setIsLoggedIn(false);
+    setToken("");
     localStorage.removeItem("userInfo");
-    localStorage.setItem("isLoggedIn", "false");
-    setCartData(null);
+    localStorage.removeItem("token");
   };
 
   const handleSearchButtonClick = () => {
@@ -53,11 +51,11 @@ const Header = () => {
     }
   };
 
-  const [searchInput, setSearchInput] = useState("");
-
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value);
   };
+
+  const isLoggedIn = !!token;
 
   return (
     <div className="bg-gradient-to-r from-green-500 to-green-700 text-white py-4">

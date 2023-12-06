@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Swal from "sweetalert2";
 
 const OrderModal = ({ isOpen, onClose, handleClearCart, totalPrice }) => {
   const [formData, setFormData] = useState({

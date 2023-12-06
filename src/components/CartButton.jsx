@@ -11,10 +11,10 @@ import {
 import { useEffect, useRef } from "react";
 
 const CartButton = ({}) => {
-  const $isCartOpen = useStore(isCartOpen);
-  const $totalQuantity = useStore(totalQuantity);
-  const $totalPrice = useStore(totalPrice);
-  const $cartItems = useStore(cartItems);
+  const isCartOpenValue = useStore(isCartOpen);
+  const totalQuantityValue = useStore(totalQuantity);
+  const totalPriceValue = useStore(totalPrice);
+  const cartItemsValue = useStore(cartItems);
   const cartPopupRef = useRef(null);
   const cartButtonRef = useRef(null);
 
@@ -34,26 +34,27 @@ const CartButton = ({}) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   return (
     <div className="flex justify-center border-b-1 border-solid border-gray-300">
       <div className="container flex items-center justify-between relative">
         <div className="cart text-base font-normal">
-          <p
+          <button
             ref={cartButtonRef}
-            onClick={() => isCartOpen.set(!$isCartOpen)}
+            onClick={() => isCartOpen.set(!isCartOpenValue)}
             className="cursor-pointer"
           >
-            Cart({$totalQuantity})
-          </p>
+            Cart({totalQuantityValue})
+          </button>
         </div>
         <div
           ref={cartPopupRef}
-          hidden={!$isCartOpen}
+          hidden={!isCartOpenValue}
           className="cart-popup absolute bg-green-500 top-0 right-20 p-4 w-[300px] shadow-md border border-solid border-gray-100"
         >
-          {Object.values($cartItems).length ? (
+          {cartItemsValue.length ? (
             <>
-              {Object.values($cartItems).map((cartItem) => (
+              {cartItemsValue.map((cartItem) => (
                 <div key={cartItem.id} className="popup-item flex mb-2">
                   <img
                     src={cartItem.thumbnail}
@@ -96,7 +97,7 @@ const CartButton = ({}) => {
               <hr className="my-2" />
               <div className="total flex justify-between text-base font-semibold pt-2 pb-1">
                 <p>Total</p>
-                <p>${$totalPrice.toFixed(2)}</p>
+                <p>${totalPriceValue.toFixed(2)}</p>
               </div>
               <a
                 href="/cart"

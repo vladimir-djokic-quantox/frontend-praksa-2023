@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Transition } from "@headlessui/react";
+import { categoriesApiUrl } from "../utils/apiConstants"
 
-const Sidebar = ({ open = false, setOpen }) => {
+const Sidebar = ({ open = false, setOpen, onCategoryClick }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
-    fetch("https://dummyjson.com/products/categories")
-      .then((response) => response.json())
-      .then((data) => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(categoriesApiUrl);
+        const data = await response.json();
         setCategories(data);
         setLoading(false);
-      });
+      } catch (error) {
+        setLoading(false);
+      }
+    };
+  
+    fetchData();
   }, []);
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
-    fetch(`https://dummyjson.com/products/category/${category}`)
-      .then((response) => response.json())
-      .then((data) => {
-      });
-
     onCategoryClick(category);
-    console.log(categories);
-
   };
 
   return (

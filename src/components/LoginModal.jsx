@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { loginApiUrl } from "../utils/apiConstants";
 
 const LoginModal = ({ isOpen, onClose, onLogin }) => {
   const [username, setUsername] = useState("");
@@ -6,7 +7,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
   const modalRef = useRef(null);
 
   const handleLogin = () => {
-    fetch("https://dummyjson.com/auth/login", {
+    fetch(loginApiUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

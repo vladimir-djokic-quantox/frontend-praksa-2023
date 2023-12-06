@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import ProductItem from "./ProductItem";
+import ProductCard from "./ProductCard";
 import { addCartItem } from "../utils/cartStore";
 import { formatPrice } from "../utils/formatPrice";
+import { searchProductsApiUrl } from "../utils/apiConstants";
 
 const SearchResults = () => {
   const [searchResults, setSearchResults] = useState([]);
@@ -17,9 +18,7 @@ const SearchResults = () => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `https://dummyjson.com/products/search?q=${searchQuery}`
-        );
+        const response = await fetch(searchProductsApiUrl + `?q=${searchQuery}`); 
         const data = await response.json();
 
         if (Array.isArray(data.products)) {
@@ -45,7 +44,7 @@ const SearchResults = () => {
       {!loading && !error && (
         <ul className="flex gap-3">
           {searchResults.map((product) => (
-            <ProductItem
+            <ProductCard
               key={product.id}
               product={product}
               formatPrice={formatPrice}

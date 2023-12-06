@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { addCartItem } from "../utils/cartStore";
 import { formatPrice } from "../utils/formatPrice";
-import ProductItem from "./ProductItem";
+import ProductCard from "./ProductCard";
+import { productsApiUrl } from "../utils/apiConstants"
 
-export default function FullProductList({
+export default function ProductList({
   showRandomSubset,
   numberOfProductsToShow,
 }) {
@@ -11,24 +12,29 @@ export default function FullProductList({
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 20;
 
-  const fetchProducts = async () => {
-    const res = await fetch("https://dummyjson.com/products?limit=100");
-    const data = await res.json();
-    if (data?.products?.length) {
-      const shuffledProducts = showRandomSubset
-        ? data.products.sort(() => Math.random() - 0.5)
-        : data.products;
+  const fetchProducts = async (limit) => {
+    try {
+      const res = await fetch(`${productsApiUrl}?limit=${limit}`);
+      const data = await res.json();
+      if (data?.products?.length) {
+        const shuffledProducts = showRandomSubset
+          ? data.products.sort(() => Math.random() - 0.5)
+          : data.products;
 
-      const slicedProducts = numberOfProductsToShow
-        ? shuffledProducts.slice(0, numberOfProductsToShow)
-        : shuffledProducts;
+        const slicedProducts = numberOfProductsToShow
+          ? shuffledProducts.slice(0, numberOfProductsToShow)
+          : shuffledProducts;
 
-      setProducts(slicedProducts);
+        setProducts(slicedProducts);
+      }
+    } catch (error) {
+      console.error("Error fetching products:", error);
     }
   };
 
   useEffect(() => {
-    fetchProducts();
+    const limit = numberOfProductsToShow || productsPerPage;
+    fetchProducts(limit);
   }, [showRandomSubset, numberOfProductsToShow]);
 
   const nextPage = () => {
@@ -60,7 +66,7 @@ export default function FullProductList({
         <div>
           <ol className="flex flex-wrap gap-3 justify-center">
             {currentProducts.map((product) => (
-              <ProductItem
+              <ProductCard
                 key={product.id}
                 product={product}
                 onAddToCart={onAddToCart}
@@ -69,7 +75,7 @@ export default function FullProductList({
             ))}
           </ol>
           {showRandomSubset ? null : (
-            <div className="pagination flex justify-center items-center mt-4 font-bold gap-5">
+            <div className="flex justify-center items-center mt-4 font-bold gap-5">
               <button
                 onClick={prevPage}
                 disabled={currentPage === 1}
@@ -112,3 +118,4 @@ export default function FullProductList({
     </div>
   );
 }
+

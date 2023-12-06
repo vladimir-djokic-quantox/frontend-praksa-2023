@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { userApiUrl } from "../utils/apiConstants"
 
 const UserInformation = () => {
   const [userData, setUserData] = useState(null);
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const userId = JSON.parse(localStorage.getItem("userInfo"))?.id;
 
   const UserDetail = ({ label, value }) => (
     <div>
@@ -12,21 +14,21 @@ const UserInformation = () => {
   );
 
   useEffect(() => {
-    if (isLoggedIn) {
-      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const fetchData = async () => {
+      try {
+        const response = await fetch(userApiUrl(userId));
+        const data = await response.json();
 
-      if (userInfo) {
-        fetch(`https://dummyjson.com/users/${userInfo.id}`)
-          .then((res) => res.json())
-          .then((data) => {
-            setUserData(data);
-          })
-          .catch((error) => {
-            console.error("Error fetching user information:", error);
-          });
+        setUserData(data);
+      } catch (error) {
+        console.error("Error fetching user information:", error);
       }
+    };
+
+    if (isLoggedIn && userId) {
+      fetchData();
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, userId]);
 
   if (userData) {
     return (
