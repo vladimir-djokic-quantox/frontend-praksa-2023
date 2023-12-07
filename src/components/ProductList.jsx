@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { addCartItem } from "../utils/cartStore";
 import { formatPrice } from "../utils/formatPrice";
 import ProductCard from "./ProductCard";
-import { productsApiUrl } from "../utils/apiConstants"
+import { productsApiUrl } from "../utils/apiConstants";
 
 export default function ProductList({
   showRandomSubset,
   numberOfProductsToShow,
+  serverData,
 }) {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(serverData || []);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 20;
 
@@ -33,8 +34,10 @@ export default function ProductList({
   };
 
   useEffect(() => {
-    const limit = numberOfProductsToShow || productsPerPage;
-    fetchProducts(limit);
+    if (!serverData) {
+      const limit = numberOfProductsToShow || productsPerPage;
+      fetchProducts(limit);
+    }
   }, [showRandomSubset, numberOfProductsToShow]);
 
   const nextPage = () => {

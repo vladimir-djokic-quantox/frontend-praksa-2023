@@ -1,6 +1,18 @@
 ---
 import ProductList from "../../components/ProductList";
 import PagesLayout from "../../layouts/PagesLayout.astro";
+import { productsApiUrl } from "../../utils/apiConstants";
+
+const load = async () => {
+  try {
+    const res = await fetch(`${productsApiUrl}?limit=100`);
+    const data = await res.json();
+    return { serverData: data.products };
+  } catch (error) {
+    console.error("Error fetching products for SSR:", error);
+    return { serverData: [] };
+  }
+};
 ---
 
 <PagesLayout title="E-Commerce Products">
@@ -8,5 +20,6 @@ import PagesLayout from "../../layouts/PagesLayout.astro";
     client:load
     showRandomSubset={false}
     numberOfProductsToShow={100}
+    load={load}
   />
 </PagesLayout>

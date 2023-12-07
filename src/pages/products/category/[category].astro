@@ -3,11 +3,10 @@ import { formatPrice } from "../../../utils/formatPrice";
 import { addCartItem } from "../../../utils/cartStore";
 import ProductItem from "../../../components/ProductCard";
 import PagesLayout from "../../../layouts/PagesLayout.astro";
+import { productsApiUrl } from "../../../utils/apiConstants";
 
 const { category } = Astro.params;
-const response = await fetch(
-  `https://dummyjson.com/products/category/${category}`
-);
+const response = await fetch(`${productsApiUrl}/category/${category}`);
 const data = await response.json();
 
 const onAddToCart = (id, name, price, thumbnail) => {
