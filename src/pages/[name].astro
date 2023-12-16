@@ -1,0 +1,77 @@
+---
+import PagesLayout from "../layouts/PagesLayout.astro";
+
+const { name } = Astro.params;
+const apiKey = '8f339c29069ad6ea5b87e8bb401d8a7b';
+const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${name}&appid=${apiKey}`); 
+const weatherData = await response.json();
+
+const forecastList = weatherData.list.map(item => ({
+    date: item.dt_txt,
+    temperature: item.main.temp,
+    weatherDescription: item.weather[0].description,
+    icon: item.weather[0].icon,
+  }));
+
+  function convertToCelsius(kelvin) {
+  return Math.round(kelvin - 273.15);
+}
+
+function getNextFiveDays() {
+  const currentDate = new Date();
+  currentDate.setDate(currentDate.getDate() + 1); 
+  const nextFiveDays = [];
+
+  for (let i = 0; i < 5; i++) {
+    const dateString = currentDate.toISOString().split('T')[0];
+    nextFiveDays.push(dateString);
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return nextFiveDays;
+}
+
+function groupByDay(forecastList) {
+  const grouped = {};
+
+  const nextFiveDays = getNextFiveDays();
+
+  forecastList.forEach((forecast) => {
+    const date = forecast.date.split(' ')[0];
+    
+    if (nextFiveDays.includes(date)) {
+      if (!grouped[date]) {
+        grouped[date] = [];
+      }
+      grouped[date].push(forecast);
+    }
+  });
+
+  return Object.values(grouped);
+}
+---
+<PagesLayout>
+    <div class="mx-auto p-6 bg-white">
+        <h2 class="text-2xl font-bold mb-4">Five Day Forecast for {weatherData.city.name}</h2>
+        <a class="bg-blue-500 text-white p-2 px-8  rounded-md hover:bg-blue-600" href="/">Back</a>
+
+    
+        {groupByDay(forecastList).map((dayForecast, index) => (
+          <div key={index} class="border mb-4 p-4 rounded-md mt-4">
+            <h3 class="text-xl font-bold mb-2">Date: {dayForecast[0].date.split(' ')[0]}</h3>
+            <div class="flex">
+              {dayForecast.map((forecast, forecastIndex) => (
+                <div key={forecastIndex} class="flex-1 mb-2 mr-2 border border-gray-300 rounded-md p-4">
+                  <p>Time: {forecast.date.split(' ')[1]}</p>
+                  <p>Temp: {convertToCelsius(forecast.temperature)} °C</p>
+                  <p>{forecast.weatherDescription.charAt(0).toUpperCase() + forecast.weatherDescription.slice(1)}</p>
+                  <img class="max-w-12" src={`https://openweathermap.org/img/w/${forecast.icon}.png`} alt="Weather Icon" />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+</PagesLayout>
+
+

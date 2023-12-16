@@ -1,0 +1,51 @@
+---
+import PagesLayout from "../../layouts/PagesLayout.astro";
+import { getGeocodingData, getPollutionData } from "../../utils/api";
+
+const { name } = Astro.params;
+
+const geocodingData = await getGeocodingData(name);
+
+const { lat, lon } = geocodingData[0];
+
+const pollutionData = await getPollutionData(lat, lon);
+
+const { list } = pollutionData;
+
+const getAqiDescription = (aqi) => {
+  if (aqi <= 1) {
+    return "Good";
+  } else if (aqi <= 2) {
+    return "Fair";
+  } else if (aqi <= 3) {
+    return "Moderate";
+  } else if (aqi <= 4) {
+    return "Poor";
+  } else {
+    return "Very Poor";
+  }
+};
+---
+
+<PagesLayout>
+  <div>
+    <h2>Pollution Information for {name}</h2>
+
+    {
+      list.map((item) => (
+        <div key={item.dt}>
+          <p>Date and Time: {new Date(item.dt * 1000).toLocaleString()}</p>
+          <p>Air Quality Index (AQI): {item.main.aqi} - {getAqiDescription(item.main.aqi)}</p>
+          <p>CO: {item.components.co}</p>
+          <p>NO: {item.components.no}</p>
+          <p>NO2: {item.components.no2}</p>
+          <p>O3: {item.components.o3}</p>
+          <p>SO2: {item.components.so2}</p>
+          <p>PM2.5: {item.components.pm2_5}</p>
+          <p>PM10: {item.components.pm10}</p>
+          <p>NH3: {item.components.nh3}</p>
+        </div>
+      ))
+    }
+  </div>
+</PagesLayout>
