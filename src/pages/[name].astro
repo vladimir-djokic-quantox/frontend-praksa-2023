@@ -65,7 +65,7 @@ function groupByDay(forecastList) {
                   <p>Time: {forecast.date.split(' ')[1]}</p>
                   <p>Temp: {convertToCelsius(forecast.temperature)} °C</p>
                   <p>{forecast.weatherDescription.charAt(0).toUpperCase() + forecast.weatherDescription.slice(1)}</p>
-                  <img class="max-w-12" src={`https://openweathermap.org/img/w/${forecast.icon}.png`} alt="Weather Icon" />
+                  <img class="w-12 h-12 mx-auto mb-2" src={`/src/icons/${forecast.icon}.png`} alt="Weather Icon" />
                 </div>
               ))}
             </div>

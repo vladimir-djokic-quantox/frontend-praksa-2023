@@ -22,7 +22,7 @@ const TodaysWeather = ({ cityName }) => {
   }, [cityName]);
 
   const kelvinToCelsius = (temp) => {
-    return temp - 273.15;
+    return Math.round(temp - 273.15);
   };
 
   const filterNext24HoursForecasts = () => {
@@ -55,28 +55,30 @@ const TodaysWeather = ({ cityName }) => {
           <h2 className="text-2xl font-semibold mb-4 ">24 Hours Weather</h2>
           <Slider {...sliderSettings} className="mb-8">
             {next24HoursForecasts.map((forecast) => (
-              <div key={forecast.dt} className="bg-white p-4 rounded shadow flex flex-col items-center text-center">
-              <img
-                className="max-w-12 mx-auto mt-2"
-                src={`https://openweathermap.org/img/w/${forecast.weather[0].icon}.png`}
-                alt="Weather Icon"
-              />
-              <p className="text-blue-500">
-                {kelvinToCelsius(forecast.main.temp).toFixed(2)} °C
-              </p>
-              <p className="text-gray-700">
-                <span className="capitalize">
-                  {forecast.weather[0].description}
-                </span>
-              </p>
-            
-              <p className="text-gray-700">
-                {forecast.dt_txt.split(" ")[0]}
-                <br />
-                {forecast.dt_txt.split(" ")[1]}
-              </p>
-            </div>
-            
+              <div
+                key={forecast.dt}
+                className="bg-white p-4 rounded shadow flex flex-col items-center text-center"
+              >
+                <img
+                  src={`/src/icons/${forecast.weather[0].icon}.png`}
+                  alt="Weather Icon"
+                  className="w-16 h-16 mx-auto mb-2"
+                />
+                <p className="text-blue-500">
+                  {kelvinToCelsius(forecast.main.temp)} °C
+                </p>
+                <p className="text-gray-700">
+                  <span className="capitalize">
+                    {forecast.weather[0].description}
+                  </span>
+                </p>
+
+                <p className="text-gray-700">
+                  {forecast.dt_txt.split(" ")[0]}
+                  <br />
+                  {forecast.dt_txt.split(" ")[1]}
+                </p>
+              </div>
             ))}
           </Slider>
         </>

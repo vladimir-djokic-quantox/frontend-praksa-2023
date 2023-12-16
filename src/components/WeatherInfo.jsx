@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import TodaysWeather from "./TodaysWeather";
 import { fetchCurrentWeatherData } from "../utils/api";
 
-
 const WeatherInfo = ({ cityName }) => {
   const [weatherData, setWeatherData] = useState(null);
   const [error, setError] = useState(null);
@@ -23,7 +22,7 @@ const WeatherInfo = ({ cityName }) => {
   }, [cityName]);
 
   return (
-    <div className="bg-gray-100 p-4 rounded-md shadow-md">
+    <div className="bg-gray-100 rounded-md shadow-md">
       {error && <p className="text-red-500">{error}</p>}
       {weatherData && (
         <div>
@@ -37,10 +36,10 @@ const WeatherInfo = ({ cityName }) => {
           </p>
 
           <div className="flex items-center mb-2">
-            <img
-              src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+          <img
+              src={`/src/icons/${weatherData.weather[0].icon}.png`}
               alt="Weather Icon"
-              className="mr-2"
+              className="mr-2  w-20 h-20"
             />
             <span className="font-bold text-xl">
               {Math.round(weatherData.main.temp - 273.15)} °C

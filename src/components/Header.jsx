@@ -1,5 +1,5 @@
 import React from 'react';
-import DateTimeComponent from './DateTimeComponent';
+import DateTimeComponent from './DateTime';
 
 const Header = () => {
   return (
