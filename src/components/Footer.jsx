@@ -2,7 +2,7 @@ import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaGithub } from "react-
 
 const Footer = () => {
   return (
-    <footer className="bg-blue-500 text-white py-4">
+    <footer className="bg-[#29b5e1] text-white py-4">
       <div className="container mx-auto flex justify-between items-center">
         <p>Contact us: <a href="mailto:panta87kg@gmail.com" className="underline">panta87kg@gmail.com</a></p>
 

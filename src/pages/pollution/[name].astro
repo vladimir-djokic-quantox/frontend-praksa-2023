@@ -33,8 +33,7 @@ const getAqiDescription = (aqi) => {
 
     {
       list.map((item) => (
-        <div key={item.dt}>
-          <p>Date and Time: {new Date(item.dt * 1000).toLocaleString()}</p>
+        <div key={item}>
           <p>Air Quality Index (AQI): {item.main.aqi} - {getAqiDescription(item.main.aqi)}</p>
           <p>CO: {item.components.co}</p>
           <p>NO: {item.components.no}</p>

@@ -14,7 +14,7 @@ export const getPollutionData = async (lat, lon) => {
   return await weatherResponse.json();
 };
 
-export const fetchWeatherData = async (cityName) => {
+export const fetchDailyWeatherData = async (cityName) => {
   try {
     const response = await fetch(
       `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}`
