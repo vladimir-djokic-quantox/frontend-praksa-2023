@@ -12,23 +12,25 @@ const WeatherInfo = ({ cityName }) => {
       try {
         const data = await fetchCurrentWeatherData(cityName);
         setWeatherData(data);
+        updateCurrentTime();
       } catch (error) {
         setError(error.message);
       }
     };
+
     const updateCurrentTime = () => {
       setWeatherData((prevData) => ({
         ...prevData,
-        dt: Date.now() / 1000, 
+        dt: Date.now() / 1000,
       }));
     };
-  
+
     if (cityName) {
       fetchData();
 
       const intervalId = setInterval(updateCurrentTime, 60000);
-  
-      return () => clearInterval(intervalId); 
+
+      return () => clearInterval(intervalId);
     }
   }, [cityName]);
 
