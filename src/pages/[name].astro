@@ -51,21 +51,21 @@ function groupByDay(forecastList) {
 }
 ---
 <PagesLayout>
-    <div class="mx-auto p-6 bg-white">
-        <h2 class="text-2xl font-bold mb-4">Five Day Forecast for {weatherData.city.name}</h2>
-        <a class="bg-blue-500 text-white p-2 px-8  rounded-md hover:bg-blue-600" href="/">Back</a>
+    <div class="mx-auto p-6  bg-opacity-100">
+        <h2 class="text-2xl font-bold mb-4 text-blue-500">Five Day Forecast for {weatherData.city.name}</h2>
+        <a class="bg-blue-500 text-white p-2 px-10  rounded-3xl hover:bg-blue-600" href="/">Back</a>
 
     
         {groupByDay(forecastList).map((dayForecast, index) => (
-          <div key={index} class="border mb-4 p-4 rounded-md mt-4">
-            <h3 class="text-xl font-bold mb-2">Date: {dayForecast[0].date.split(' ')[0]}</h3>
+          <div key={index} class=" mb-4 p-4 rounded-md mt-4">
+            <h3 class="text-xl font-bold mb-2 text-blue-500">Date: {dayForecast[0].date.split(' ')[0]}</h3>
             <div class="flex">
               {dayForecast.map((forecast, forecastIndex) => (
-                <div key={forecastIndex} class="flex-1 mb-2 mr-2 border border-gray-300 rounded-md p-4">
-                  <p>Time: {forecast.date.split(' ')[1]}</p>
-                  <p>Temp: {convertToCelsius(forecast.temperature)} °C</p>
-                  <p>{forecast.weatherDescription.charAt(0).toUpperCase() + forecast.weatherDescription.slice(1)}</p>
+                <div key={forecastIndex} class="flex-1 mb-2 mr-2 bg-white text-blue-500 font-semibold text-center rounded-3xl p-4 flex flex-col items-center">
                   <img class="w-12 h-12 mx-auto mb-2" src={`/src/icons/${forecast.icon}.png`} alt="Weather Icon" />
+                  <p class="text-xl">{convertToCelsius(forecast.temperature)} °C</p>
+                  <p>Time: {forecast.date.split(' ')[1]}</p>
+                  <p>{forecast.weatherDescription.charAt(0).toUpperCase() + forecast.weatherDescription.slice(1)}</p>
                 </div>
               ))}
             </div>

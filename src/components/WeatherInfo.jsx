@@ -51,8 +51,8 @@ const WeatherInfo = ({ cityName }) => {
           <div className="flex gap-5">
             <div className="flex flex-col w-[70%] ">
               <div className="flex items-center p-5 bg-white rounded-3xl">
-                <div className="flex justify-between items-center w-[55%]">
-                  <div>
+                <div className="flex justify-between items-center w-[66.6%]">
+                  <div className="mx-auto">
                     <div className="flex flex-row items-center">
                       <img
                         className="mr-1 w-5 "
@@ -76,7 +76,7 @@ const WeatherInfo = ({ cityName }) => {
                     alt=""
                   />
                 </div>
-                <div className="text-2xl font-bold text-blue-500 flex flex-col items-center w-[45%]">
+                <div className="text-2xl font-bold text-blue-500 flex flex-col items-center w-[33.3%]">
                   <p>{getLocalTime(weatherData.dt, weatherData.timezone)}</p>
                   <p> {getLocalDay(weatherData.dt, weatherData.timezone)}</p>
                 </div>

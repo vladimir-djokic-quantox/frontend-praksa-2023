@@ -1,15 +1,31 @@
 import React, { useState, useEffect } from "react";
 import WeatherInfo from "./WeatherInfo";
+import cities from "cities.json";
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchedCities, setSearchedCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
+  const [autoCompleteSuggestions, setAutoCompleteSuggestions] = useState([]);
+  const [cityExists, setCityExists] = useState(false);
+  const [focusedSuggestion, setFocusedSuggestion] = useState(-1);
 
   useEffect(() => {
     const storedCities =
       JSON.parse(localStorage.getItem("searchedCities")) || [];
     setSearchedCities(storedCities);
+
+    const handleEscapeKey = (e) => {
+      if (e.key === "Escape") {
+        setAutoCompleteSuggestions([]);
+      }
+    };
+
+    document.addEventListener("keydown", handleEscapeKey);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
   }, []);
 
   const saveToLocalStorage = (cities) => {
@@ -18,17 +34,33 @@ const SearchBar = () => {
 
   const handleSearch = () => {
     if (searchTerm.trim() !== "") {
-      const updatedSearches = [...searchedCities, searchTerm];
-      setSearchedCities(updatedSearches);
-      setSearchTerm("");
-      setSelectedCity(searchTerm);
-      saveToLocalStorage(updatedSearches);
+      const normalizedSearchTerm = searchTerm.toLowerCase();
+      if (
+        !searchedCities
+          .map((city) => city.toLowerCase())
+          .includes(normalizedSearchTerm)
+      ) {
+        const updatedSearches = [...searchedCities, searchTerm];
+        setSearchedCities(updatedSearches);
+        setSearchTerm("");
+        setSelectedCity(searchTerm);
+        saveToLocalStorage(updatedSearches);
+        setCityExists(false);
+      } else {
+        setCityExists(true);
+      }
     }
   };
 
   const handleEnterKeyPress = (e) => {
     if (e.key === "Enter") {
-      handleSearch();
+      if (autoCompleteSuggestions.length > 0 && focusedSuggestion !== -1) {
+        handleAutoCompleteSelection(autoCompleteSuggestions[focusedSuggestion]);
+      } else {
+        handleSearch();
+      }
+    } else if (e.key === "Escape") {
+      setAutoCompleteSuggestions([]);
     }
   };
 
@@ -49,6 +81,39 @@ const SearchBar = () => {
     setSelectedCity("");
   };
 
+  const autoComplete = () => {
+    const matches = cities.filter((data) => {
+      const regex = new RegExp(`^${searchTerm}`, "gi");
+      return data.name.match(regex);
+    });
+
+    const limitedMatches = matches.slice(0, 10);
+    setAutoCompleteSuggestions(limitedMatches);
+
+    if (searchTerm === "") {
+      setAutoCompleteSuggestions([]);
+    }
+  };
+
+  const handleArrowNavigation = (e) => {
+    if (autoCompleteSuggestions.length > 0) {
+      if (e.key === "ArrowDown") {
+        setFocusedSuggestion((prev) =>
+          prev < autoCompleteSuggestions.length - 1 ? prev + 1 : prev
+        );
+      } else if (e.key === "ArrowUp") {
+        setFocusedSuggestion((prev) => (prev > 0 ? prev - 1 : prev));
+      }
+    }
+  };
+
+  const handleAutoCompleteSelection = (selectedCity) => {
+    const fullName = `${selectedCity.name}, ${selectedCity.country}`;
+    setSearchTerm(fullName);
+    setAutoCompleteSuggestions([]);
+    setFocusedSuggestion(-1);
+  };
+
   return (
     <div className="flex items-start p-4">
       <div className="bg-gradient-to-b from-white to-sky-200 rounded-3xl text-blue-500  p-4 w-96">
@@ -56,10 +121,37 @@ const SearchBar = () => {
           type="text"
           placeholder="Enter search term"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setAutoCompleteSuggestions([]);
+            setFocusedSuggestion(-1);
+            autoComplete();
+            setCityExists(false); 
+          }}
           onKeyPress={handleEnterKeyPress}
+          onKeyDown={handleArrowNavigation}
           className="w-full p-2 border rounded-3xl focus:outline-none focus:border-blue-500"
         />
+        {cityExists && (
+          <p className="text-red-500 mt-2">
+            City already exists in recent searches.
+          </p>
+        )}
+        {autoCompleteSuggestions.length > 0 && (
+          <div className="w-[350px] bg-white absolute rounder-3xl left-8 right-0">
+            {autoCompleteSuggestions.map((match, index) => (
+              <div
+                key={match.geonameid}
+                className={`p-2 cursor-pointer hover:bg-blue-200 ${
+                  focusedSuggestion === index ? "bg-blue-200" : ""
+                }`}
+                onClick={() => handleAutoCompleteSelection(match)}
+              >
+                {match.name}, {match.country}
+              </div>
+            ))}
+          </div>
+        )}
         <button
           onClick={handleSearch}
           className="mt-2 bg-blue-500 text-white p-2 rounded-3xl hover:bg-blue-600 focus:outline-none w-[120px]"
