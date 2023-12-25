@@ -1,37 +1,28 @@
 import React from 'react';
 
 const WindType = ({ speed }) => {
+  const windRanges = [
+    { max: 3, type: 'Calm' },
+    { max: 7, type: 'Light Air' },
+    { max: 12, type: 'Light Breeze' },
+    { max: 18, type: 'Gentle Breeze' },
+    { max: 24, type: 'Moderate Breeze' },
+    { max: 31, type: 'Fresh Breeze' },
+    { max: 38, type: 'Strong Breeze' },
+    { max: 46, type: 'Near Gale' },
+    { max: 54, type: 'Gale' },
+    { max: 63, type: 'Strong Gale' },
+    { max: 75, type: 'Whole Gale' },
+    { max: 88, type: 'Storm Force' },
+    { max: Infinity, type: 'Hurricane Force' },
+  ];
+
   const getWindType = () => {
-    if (speed <= 3) {
-      return 'Calm';
-    } else if (speed <= 7) {
-      return 'Light Air';
-    } else if (speed <= 12) {
-      return 'Light Breeze';
-    } else if (speed <= 18) {
-      return 'Gentle Breeze';
-    } else if (speed <= 24) {
-      return 'Moderate Breeze';
-    } else if (speed <= 31) {
-      return 'Fresh Breeze';
-    } else if (speed <= 38) {
-      return 'Strong Breeze';
-    } else if (speed <= 46) {
-      return 'Near Gale';
-    } else if (speed <= 54) {
-      return 'Gale';
-    } else if (speed <= 63) {
-      return 'Strong Gale';
-    } else if (speed <= 75) {
-      return 'Whole Gale';
-    } else if (speed <= 75) {
-      return 'Storm Force';
-    } else {
-      return 'Hurricane Force';
-    }
+    const range = windRanges.find(range => speed <= range.max);
+    return range ? range.type : 'Unknown'; 
   };
 
-  return <span> {getWindType()}</span>;
+  return <span>{getWindType()}</span>;
 };
 
 export default WindType;
