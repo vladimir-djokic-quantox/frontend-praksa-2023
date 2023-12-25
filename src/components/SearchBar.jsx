@@ -14,17 +14,28 @@ const SearchBar = () => {
     const storedCities =
       JSON.parse(localStorage.getItem("searchedCities")) || [];
     setSearchedCities(storedCities);
-
+  
     const handleEscapeKey = (e) => {
       if (e.key === "Escape") {
         setAutoCompleteSuggestions([]);
       }
     };
-
+  
+    const handleOutsideClick = (e) => {
+      if (
+        e.target.closest(".autocomplete-container") === null &&
+        e.target.closest(".search-bar-input") === null
+      ) {
+        setAutoCompleteSuggestions([]);
+      }
+    };
+  
     document.addEventListener("keydown", handleEscapeKey);
-
+    document.addEventListener("click", handleOutsideClick);
+  
     return () => {
       document.removeEventListener("keydown", handleEscapeKey);
+      document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
 
@@ -119,7 +130,7 @@ const SearchBar = () => {
       <div className="bg-gradient-to-b from-white to-sky-200 rounded-3xl text-blue-500  p-4 w-96">
         <input
           type="text"
-          placeholder="Enter search term"
+          placeholder="Search for city."
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);

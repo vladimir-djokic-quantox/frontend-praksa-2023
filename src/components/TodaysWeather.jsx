@@ -44,7 +44,9 @@ const TodaysWeather = ({ cityName }) => {
     speed: 200,
     slidesToShow: 4,
     slidesToScroll: 1,
+    variableWidth: true,
   };
+  
 
   return (
     <div className="max-w-screen-lg mx-auto p-4">
@@ -57,12 +59,13 @@ const TodaysWeather = ({ cityName }) => {
             {next24HoursForecasts.map((forecast) => (
               <div
                 key={forecast.dt}
-                className="bg-white p-4 shadow flex flex-col items-center text-center rounded-3xl"
+                className="bg-white p-4 items-center text-center rounded-3xl"
+                style={{  width: '200px' }}
               >
                 <img
                   src={`/src/icons/${forecast.weather[0].icon}.png`}
                   alt="Weather Icon"
-                  className="w-16 h-16 mx-auto mb-2"
+                  className="w-16 h-16 mx-auto mb-2 "
                 />
                 <p className="text-blue-500 font-bold">
                   {kelvinToCelsius(forecast.main.temp)} °C

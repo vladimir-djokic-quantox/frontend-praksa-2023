@@ -13,38 +13,87 @@ const pollutionData = await getPollutionData(lat, lon);
 const { list } = pollutionData;
 
 const getAqiDescription = (aqi) => {
+  let description = "";
+  let colorStyle = {};
+  let imageUrl = "";
+
   if (aqi <= 1) {
-    return "Good";
+    description = "Good";
+    colorStyle = { color: "#8dbd21" };
+    imageUrl = "/src/images/AQ-Good.png";
   } else if (aqi <= 2) {
-    return "Fair";
+    description = "Moderate";
+    colorStyle = { color: "#fac924" };
+    imageUrl = "/src/images/AQ-Moderate.png";
   } else if (aqi <= 3) {
-    return "Moderate";
+    description = "Unhealthy For Sensitive Groups";
+    colorStyle = { color: "#f18b00" };
+    imageUrl = "/src/images/AQ-UnhealthySensitive.png";
   } else if (aqi <= 4) {
-    return "Poor";
+    description = "Unhealthy";
+    colorStyle = { color: "#e94578" };
+    imageUrl = "/src/images/AQ-Unhealthy.png";
   } else {
-    return "Very Poor";
+    description = "Very Unhealthy";
+    colorStyle = { color: "#903489" };
+    imageUrl = "/src/images/AQ-VeryUnhealthy.png";
   }
+
+  return {
+    description,
+    colorStyle,
+    imageUrl,
+  };
 };
 ---
 
 <PagesLayout>
-  <div>
-    <h2>Pollution Information for {name}</h2>
-    <a class="bg-blue-500 text-white p-2 px-10  rounded-3xl hover:bg-blue-600" href="/">Back</a>
-
-
+  <div class="max-w-2xl mx-auto my-4 p-8 rounded-3xl text-blue-500">
+    <h2 class="text-3xl font-semibold mb-6 capitalize">
+      Pollution Information for {name}
+    </h2>
+    <a
+      class="bg-blue-500 text-white py-2 px-10 rounded-3xl hover:bg-blue-600 mb-4 inline-block"
+      href="/">Back</a
+    >
     {
       list.map((item) => (
         <div key={item}>
-          <p>Air Quality Index (AQI): {item.main.aqi} - {getAqiDescription(item.main.aqi)}</p>
-          <p>CO: {item.components.co}</p>
-          <p>NO: {item.components.no}</p>
-          <p>NO2: {item.components.no2}</p>
-          <p>O3: {item.components.o3}</p>
-          <p>SO2: {item.components.so2}</p>
-          <p>PM2.5: {item.components.pm2_5}</p>
-          <p>PM10: {item.components.pm10}</p>
-          <p>NH3: {item.components.nh3}</p>
+          <div class="bg-white p-4 rounded-3xl mb-4 font-semibold">
+            <p class="text-lg font-bold mb-2 flex flex-col items-center">
+              <span class="text-blue-500">Air Quality Index (AQI):</span>{" "}
+              <span style={getAqiDescription(item.main.aqi).colorStyle}>
+                {getAqiDescription(item.main.aqi).description}
+              </span>
+              <div class="flex items-center justify-center">
+                <img
+                  class="w-[150px]"
+                  src={getAqiDescription(item.main.aqi).imageUrl}
+                  alt={getAqiDescription(item.main.aqi).description}
+                />
+              </div>
+            </p>
+            <div class="flex gap-12 mt-8">
+              <div>
+                <p class="mb-2">Carbon Monoxide (CO): {item.components.co}</p>
+                <p class="mb-2">Nitric Oxide (NO): {item.components.no}</p>
+                <p class="mb-2">
+                  Nitrogen Dioxide (NO2): {item.components.no2}
+                </p>
+                <p class="mb-2">Ozone (O3): {item.components.o3}</p>
+              </div>
+              <div>
+                <p class="mb-2">Sulfur Dioxide (SO2): {item.components.so2}</p>
+                <p class="mb-2">
+                  Particulate Matter (PM2.5): {item.components.pm2_5}
+                </p>
+                <p class="mb-2">
+                  Particulate Matter (PM10): {item.components.pm10}
+                </p>
+                <p class="mb-2">Ammonia (NH3): {item.components.nh3}</p>
+              </div>
+            </div>
+          </div>
         </div>
       ))
     }
