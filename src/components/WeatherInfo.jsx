@@ -45,7 +45,7 @@ const WeatherInfo = ({ cityName }) => {
   };
 
   return (
-    <div className=" ml-5 w-[100%]">
+    <div className="w-[100%] p-3">
       {error && <p className="text-red-500">{error}</p>}
       {weatherData && (
           <div className="flex gap-5">
@@ -129,7 +129,7 @@ const WeatherInfo = ({ cityName }) => {
                 {cityName && (
                   <div className="flex flex-col gap-4 mx-auto text-blue-500 font-bold text-center">
                     <a
-                      href={`/${cityName}`}
+                      href={`/forecast-5/${cityName}`}
                       className="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-6 py-3 transition duration-300 ease-in-out transform focus:outline-none focus:shadow-outline"
                     >
                       Five Day Forecast

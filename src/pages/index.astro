@@ -1,13 +1,9 @@
 ---
 import PagesLayout from "../layouts/PagesLayout.astro";
 import SearchBar from "../components/SearchBar";
-import WeatherInfo from "../components/WeatherInfo";
 ---
 
 <PagesLayout>
-  <div class="">
     <SearchBar client:load />
-    <WeatherInfo client:only="react"  />
-  </div>
 </PagesLayout>
 

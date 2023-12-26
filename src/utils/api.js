@@ -1,5 +1,20 @@
 const apiKey = "8f339c29069ad6ea5b87e8bb401d8a7b";
 
+
+export const getAutocompleteSuggestions = async (searchTerm) => {
+  const apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${searchTerm}*}&limit=5&appid=${apiKey}`;
+
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    return data.map((city) => ({ name: city.name, country: city.country }));
+  } catch (error) {
+    console.error("Error fetching autocomplete suggestions:", error);
+    return [];
+  }
+};
+
+
 export const getGeocodingData = async (name) => {
   const geocodingUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(name)}&limit=1&appid=${apiKey}`;
 

@@ -1,47 +1,59 @@
 import React, { useState, useEffect } from "react";
 import WeatherInfo from "./WeatherInfo";
-import cities from "cities.json";
+import { getAutocompleteSuggestions } from "../utils/api";
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchedCities, setSearchedCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
-  const [autoCompleteSuggestions, setAutoCompleteSuggestions] = useState([]);
   const [cityExists, setCityExists] = useState(false);
-  const [focusedSuggestion, setFocusedSuggestion] = useState(-1);
+  const [autocompleteResults, setAutocompleteResults] = useState([]);
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
   useEffect(() => {
     const storedCities =
       JSON.parse(localStorage.getItem("searchedCities")) || [];
     setSearchedCities(storedCities);
-  
-    const handleEscapeKey = (e) => {
-      if (e.key === "Escape") {
-        setAutoCompleteSuggestions([]);
-      }
-    };
-  
-    const handleOutsideClick = (e) => {
-      if (
-        e.target.closest(".autocomplete-container") === null &&
-        e.target.closest(".search-bar-input") === null
-      ) {
-        setAutoCompleteSuggestions([]);
-      }
-    };
-  
-    document.addEventListener("keydown", handleEscapeKey);
-    document.addEventListener("click", handleOutsideClick);
-  
-    return () => {
-      document.removeEventListener("keydown", handleEscapeKey);
-      document.removeEventListener("click", handleOutsideClick);
-    };
   }, []);
 
   const saveToLocalStorage = (cities) => {
     localStorage.setItem("searchedCities", JSON.stringify(cities));
   };
+
+  
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setAutocompleteResults([]);
+        setSelectedIndex(null);
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        const nextIndex = Math.min(
+          autocompleteResults.length - 1,
+          selectedIndex + 1
+        );
+        setSelectedIndex(nextIndex);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        const prevIndex = Math.max(0, selectedIndex - 1);
+        setSelectedIndex(prevIndex);
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        if (autocompleteResults.length > 0 && selectedIndex !== null) {
+          handleAutocompleteClick(autocompleteResults[selectedIndex]);
+        } else {
+          handleSearch();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedIndex, autocompleteResults]);
 
   const handleSearch = () => {
     if (searchTerm.trim() !== "") {
@@ -57,6 +69,8 @@ const SearchBar = () => {
         setSelectedCity(searchTerm);
         saveToLocalStorage(updatedSearches);
         setCityExists(false);
+
+        window.location.href = `/forecast/${searchTerm}`;
       } else {
         setCityExists(true);
       }
@@ -65,18 +79,33 @@ const SearchBar = () => {
 
   const handleEnterKeyPress = (e) => {
     if (e.key === "Enter") {
-      if (autoCompleteSuggestions.length > 0 && focusedSuggestion !== -1) {
-        handleAutoCompleteSelection(autoCompleteSuggestions[focusedSuggestion]);
-      } else {
-        handleSearch();
-      }
-    } else if (e.key === "Escape") {
-      setAutoCompleteSuggestions([]);
+      handleSearch();
     }
   };
 
+  const handleInputChange = async (e) => {
+    setSearchTerm(e.target.value);
+    setCityExists(false);
+  
+    try {
+      const autocompleteResults = await getAutocompleteSuggestions(
+        e.target.value
+      );
+      
+      setAutocompleteResults(autocompleteResults);
+    } catch (error) {
+      console.error("Error fetching autocomplete suggestions:", error);
+    }
+  };
+
+  const handleAutocompleteClick = (city) => {
+    setSearchTerm(`${city.name}, ${city.country}`);
+    setAutocompleteResults([]);
+    setSelectedIndex(null);
+  };
+
   const handleButtonClick = (city) => {
-    setSelectedCity(city);
+    window.location.href = `/forecast/${city}`;
   };
 
   const handleRemoveButtonClick = (index) => {
@@ -92,77 +121,38 @@ const SearchBar = () => {
     setSelectedCity("");
   };
 
-  const autoComplete = () => {
-    const matches = cities.filter((data) => {
-      const regex = new RegExp(`^${searchTerm}`, "gi");
-      return data.name.match(regex);
-    });
-
-    const limitedMatches = matches.slice(0, 10);
-    setAutoCompleteSuggestions(limitedMatches);
-
-    if (searchTerm === "") {
-      setAutoCompleteSuggestions([]);
-    }
-  };
-
-  const handleArrowNavigation = (e) => {
-    if (autoCompleteSuggestions.length > 0) {
-      if (e.key === "ArrowDown") {
-        setFocusedSuggestion((prev) =>
-          prev < autoCompleteSuggestions.length - 1 ? prev + 1 : prev
-        );
-      } else if (e.key === "ArrowUp") {
-        setFocusedSuggestion((prev) => (prev > 0 ? prev - 1 : prev));
-      }
-    }
-  };
-
-  const handleAutoCompleteSelection = (selectedCity) => {
-    const fullName = `${selectedCity.name}, ${selectedCity.country}`;
-    setSearchTerm(fullName);
-    setAutoCompleteSuggestions([]);
-    setFocusedSuggestion(-1);
-  };
-
   return (
-    <div className="flex items-start p-4">
+    <div className="flex items-start p-3">
       <div className="bg-gradient-to-b from-white to-sky-200 rounded-3xl text-blue-500  p-4 w-96">
         <input
           type="text"
           placeholder="Search for city."
           value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            setAutoCompleteSuggestions([]);
-            setFocusedSuggestion(-1);
-            autoComplete();
-            setCityExists(false); 
-          }}
+          onChange={handleInputChange}
           onKeyPress={handleEnterKeyPress}
-          onKeyDown={handleArrowNavigation}
           className="w-full p-2 border rounded-3xl focus:outline-none focus:border-blue-500"
         />
+        {autocompleteResults.length > 0 && (
+          <div className="autocomplete-results absolute z-10 bg-white w-[350px] border rounded-3xl ">
+            {autocompleteResults.map((result, index) => (
+              <div
+                key={result.name}
+                onClick={() => handleAutocompleteClick(result)}
+                className={`autocomplete-item p-2 cursor-pointer ${
+                  index === selectedIndex ? "bg-blue-200" : "hover:bg-blue-200"
+                }`}
+              >
+                {result.name}, {result.country}
+              </div>
+            ))}
+          </div>
+        )}
         {cityExists && (
           <p className="text-red-500 mt-2">
             City already exists in recent searches.
           </p>
         )}
-        {autoCompleteSuggestions.length > 0 && (
-          <div className="w-[350px] bg-white absolute rounder-3xl left-8 right-0">
-            {autoCompleteSuggestions.map((match, index) => (
-              <div
-                key={match.geonameid}
-                className={`p-2 cursor-pointer hover:bg-blue-200 ${
-                  focusedSuggestion === index ? "bg-blue-200" : ""
-                }`}
-                onClick={() => handleAutoCompleteSelection(match)}
-              >
-                {match.name}, {match.country}
-              </div>
-            ))}
-          </div>
-        )}
+
         <button
           onClick={handleSearch}
           className="mt-2 bg-blue-500 text-white p-2 rounded-3xl hover:bg-blue-600 focus:outline-none w-[120px]"

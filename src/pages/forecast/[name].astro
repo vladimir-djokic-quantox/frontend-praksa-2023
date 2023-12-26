@@ -1,0 +1,15 @@
+---
+import PagesLayout from "../../layouts/PagesLayout.astro";
+import WeatherInfo from "../../components/WeatherInfo";
+import SearchBar from "../../components/SearchBar";
+
+const { name } = Astro.params;
+---
+
+<PagesLayout>
+  <div class="flex mx-auto w-full ">
+    <SearchBar client:only="react"/>
+
+    <WeatherInfo cityName={name} client:only="react" />
+  </div>
+</PagesLayout>
