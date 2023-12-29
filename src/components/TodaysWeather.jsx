@@ -44,7 +44,6 @@ const TodaysWeather = ({ cityName }) => {
     speed: 200,
     slidesToShow: 4,
     slidesToScroll: 1,
-    variableWidth: true,
   };
   
 
@@ -59,8 +58,7 @@ const TodaysWeather = ({ cityName }) => {
             {next24HoursForecasts.map((forecast) => (
               <div
                 key={forecast.dt}
-                className="bg-white p-4 items-center text-center rounded-3xl"
-                style={{  width: '200px' }}
+                className="bg-white p-4 items-center text-center rounded-3xl !w-[92%]"
               >
                 <img
                   src={`/src/icons/${forecast.weather[0].icon}.png`}

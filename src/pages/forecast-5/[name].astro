@@ -2,7 +2,7 @@
 import PagesLayout from "../../layouts/PagesLayout.astro";
 
 const { name } = Astro.params;
-const apiKey = '8f339c29069ad6ea5b87e8bb401d8a7b';
+const apiKey = import.meta.env.PUBLIC_WEATHERMAP_API_KEY;
 const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${name}&appid=${apiKey}`); 
 const weatherData = await response.json();
 
